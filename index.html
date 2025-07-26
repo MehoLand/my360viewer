@@ -1,25 +1,50 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
-<head>
+  <head>
     <meta charset="utf-8">
     <title>360° Video Viewer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
-</head>
-<body>
-    <a-scene>
-        <a-assets>
-            <video id="video360"
-                   src="360video.mp4"
-                   autoplay
-                   loop
-                   muted
-                   playsinline
-                   crossorigin="anonymous"></video>
-        </a-assets>
+  </head>
+  <body>
 
-        <a-videosphere src="#video360" rotation="0 -90 0"></a-videosphere>
-        <a-camera look-controls wasd-controls-enabled="false"></a-camera>
+    <button id="playButton" style="
+      position: absolute;
+      z-index: 10;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 24px;
+      padding: 12px 24px;
+      background: #000;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+    ">Tap to Start 360°</button>
+
+    <a-scene>
+      <a-assets>
+        <video id="video360" src="360video.mp4"
+          autoplay loop muted playsinline crossorigin="anonymous">
+        </video>
+      </a-assets>
+
+      <a-videosphere src="#video360" rotation="0 -90 0"></a-videosphere>
+      <a-camera look-controls wasd-controls-enabled="false"></a-camera>
     </a-scene>
-</body>
+
+    <script>
+      const playButton = document.getElementById("playButton");
+      const video = document.getElementById("video360");
+
+      playButton.addEventListener("click", () => {
+        video.play().then(() => {
+          playButton.style.display = "none";
+        }).catch((e) => {
+          alert("Video couldn't start: " + e);
+        });
+      });
+    </script>
+
+  </body>
 </html>
